@@ -1,0 +1,202 @@
+---
+title: "junk"
+author: "Holly Christensen"
+date: "December 4, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##trying and failing to add a line of best fit
+ 
+    if(input$fit == TRUE) {
+      ggplot(data = plot_boroughs_Downtown(), aes_string(x = "month", y = "units", color = "year")) +
+        geom_point() +
+        geom_smooth(method="lm") +
+        labs(x = "Month",
+             y = "Units",
+             title = "Availability of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for deciding when to buy")
+    }
+    
+ observe({
+    if (input$selectall > 0) {
+      if (input$selectall %% 2 == 0){
+        updateCheckboxGroupInput(session=session, 
+                                 inputId="year",
+                                 choices = c("2010" = "2010",
+                                                "2011" = "2011",
+                                                "2012" = "2012",
+                                                "2013" = "2013",
+                                                "2014" = "2014",
+                                                "2015" = "2015",
+                                                "2016" = "2016",
+                                                "2017" = "2017",
+                                                "2018" = "2018"),
+                                 selected = "downtownMI$year")
+      } else {
+        updateCheckboxGroupInput(session=session, 
+                                 inputId="year",
+                                 choices = list("2010" = "2010",
+                                                "2011" = "2011",
+                                                "2012" = "2012",
+                                                "2013" = "2013",
+                                                "2014" = "2014",
+                                                "2015" = "2015",
+                                                "2016" = "2016",
+                                                "2017" = "2017",
+                                                "2018" = "2018"),
+                                 selected = c())
+        
+      }}
+  })
+                                                
+  output$plot_boroughs_Downtown <- renderPlot({
+    
+    downtownMI_reactive <- reactive({ 
+      downtownMI[downtownMI$year %in% input$select_year, ]
+    })
+    
+    for(i in 1:length(variables)) {
+      if(input$x == variables[i]) {
+        x_axis <- labels[i]
+        break
+      }
+      else {
+        i <- i + 1
+      }
+    }
+    
+    if(input$line == TRUE) {
+      ggplot(filteredData(), aes_string(x = "month", y = "units", col = "year")) + geom_point() + 
+        geom_smooth(inherit.aes = FALSE, aes_string(x = 'month', y = 'units'), method = "lm") + 
+        labs(x = Month, y = Units, color = 'year')
+    } 
+    else {
+      ggplot(filteredData(), aes_string(x = 'month', y = 'units', color = 'year')) + geom_point() + 
+        labs(x = Month, y = Units, color = 'year') +
+      scale_fill_viridis(discrete=TRUE) + theme_bw() + my_theme + coord_flip()
+    }
+  })
+
+}       
+
+
+
+
+
+
+
+ 
+ 
+ 
+ ggplot(downtownMI_reactive(), aes(x=month, y=units)) +
+      geom_bar(stat='identity', position='dodge') +
+      labs(
+        title = "What Does Each Borough Complain About",
+        x = "Complaint Type", 
+        y = "Number of Complaints"
+      ) +
+      scale_fill_viridis(discrete=TRUE) + 
+      theme_bw() + 
+      my_theme +
+      coord_flip()
+    
+  })
+                            
+
+
+
+
+
+   # Sidebar with a slider input for number of bins 
+   sidebarLayout(
+     sidebarPanel(
+       textInput("title", "Title", "Holly's Apartment Search"),
+       checkboxInput("fit", "Add line of best fit", FALSE),
+       sliderInput("priceInput", "Indicate your price range", min = 0, max = 10000000,
+                              value = c(25, 40), pre = "$"), radioButtons("typeInput", "Housing type",
+                                                                          choices = c("ONE FAMILY", 
+                                                                                      "TWO FAMILY", 
+                                                                                      "THREE FAMILY", 
+                                                                                      "RENTAL WALK-UP", 
+                                                                                      "RENTAL ELEVATOR", 
+                                                                                      "COOP WALK-UP", 
+                                                                                      "COOP ELEVATOR")), 
+       selectInput("areaInput", "Select your desired neighborhood(s)", choices = c("ALPHABET CITY", 
+                                                            "CHELSEA", 
+                                                            "CHINATOWN", 
+                                                            "CIVIC CENTER", 
+                                                            "CLINTON", 
+                                                            "EAST VILLAGE", 
+                                                            "FASHION", 
+                                                            "FINANCIAL", 
+                                                            "FLATIRON", 
+                                                            "GRAMERCY", 
+                                                            "GREENWICH VILLAGE-CENTRAL", 
+                                                            "GREENWICH VILLAGE-WEST", 
+                                                            "HARLEM-CENTRAL", 
+                                                            "HARLEM-EAST", 
+                                                            "HARLEM-UPPER", 
+                                                            "HARLEM-WEST", 
+                                                            "INWOOD", 
+                                                            "JAVITS CENTER", 
+                                                            "KIPS BAY", 
+                                                            "LITTLE ITALY", 
+                                                            "LOWER EAST SIDE", 
+                                                            "MANHATTAN VALLEY",
+                                                            "MIDTOWN CBD", 
+                                                            "MIDTOWN EAST", 
+                                                            "MIDTOWN WEST", 
+                                                            "MORNINGSIDE HEIGHTS", 
+                                                            "MURRAY HILL", 
+                                                            "ROOSEVELT ISLAND", 
+                                                            "SOHO", 
+                                                            "SOUTHBRIDGE", 
+                                                            "TRIBECA", 
+                                                            "UPPER EAST SIDE (59-79)", 
+                                                            "UPPER EAST SIDE (79-96)", 
+                                                            "UPPER EAST SIDE (96-110)", 
+                                                            "UPPER WEST SIDE (59-79)", 
+                                                            "UPPER WEST SIDE (79-96)", 
+                                                            "UPPER WEST SIDE (96-116)",
+                                                            "WASHINGTON HEIGHTS LOWER",
+                                                            "WASHINGTON HEIGHTS UPPER"),
+                   selected = c("EAST VILLAGE", "LITTLE ITALY"),
+                   multiple = TRUE)),
+       mainPanel(
+         plotOutput("coolplot")
+       )
+     )
+   )
+
+```{r, echo=FALSE}
+library(shiny)
+
+
+ui <- fluidPage(titlePanel("Manhattan Housing Data"), h2("by Holly Christensen"), sidebarLayout(
+  sidebarPanel(sliderInput("priceInput", "Price", min = 0, max = 10000000,
+            value = c(25, 40), pre = "$"), radioButtons("typeInput", "Housing type",
+            choices = c("ONE FAMILY", "TWO FAMILY", "THREE FAMILY", "RENTAL WALK-UP", "RENTAL ELEVATOR", "COOP WALK-UP", "COOP ELEVATOR")), selectInput("areaInput", "Neighborhood",
+            choices = c("ALPHABET CITY", "CHELSEA", "CHINATOWN", "CIVIC CENTER", "CLINTON", "EAST VILLAGE", "FASHION", "FINANCIAL", "FLATIRON", "GRAMERCY", "GREENWICH VILLAGE-CENTRAL", "GREENWICH VILLAGE-WEST", "HARLEM-CENTRAL", "HARLEM-EAST", "HARLEM-UPPER", "HARLEM-WEST", "INWOOD", "JAVITS CENTER", "KIPS BAY", "LITTLE ITALY", "LOWER EAST SIDE", "MANHATTAN VALLEY", "MIDTOWN CBD", "MIDTOWN EAST", "MIDTOWN WEST", "MORNINGSIDE HEIGHTS", "MURRAY HILL", "ROOSEVELT ISLAND", "SOHO", "SOUTHBRIDGE", "TRIBECA", "UPPER EAST SIDE (59-79)", "UPPER EAST SIDE (79-96)", "UPPER EAST SIDE (96-110)", "UPPER WEST SIDE (59-79)", "UPPER WEST SIDE (79-96)", "UPPER WEST SIDE (96-116)", "WASHINGTON HEIGHTS LOWER", "WASHINGTON HEIGHTS UPPER"))),
+      mainPanel(
+      plotOutput("coolplot"),
+      br(), br(),
+      tableOutput("results")
+    )
+  )
+)
+server <- function(input, output) {
+  output$coolplot <- renderPlot({
+      
+      ggplot(data = manhattan, aes(x = `BUILDING CLASS CATEGORY`, y = `SALE PRICE`, color = `BUILDING CLASS CATEGORY`)) +
+        geom_boxplot() +
+        labs(x = "Building Class",
+             y = "Price",
+             title = "Real Estate Pricing by Building Class")
+      
+   })
+}
+shinyApp(ui = ui, server = server)
+```
