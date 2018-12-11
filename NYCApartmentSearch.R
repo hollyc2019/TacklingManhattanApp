@@ -154,18 +154,18 @@ ui <-
                           HTML(nav_bar_html)
                ),
 # The title for the Availability tab             
-               titlePanel("Rental Availability by Area"),
+              titlePanel("Rental Availability by Area"),
 # Subtitle describing what I'm analyzing
-               p("Analysis of the number of rentable units in Manhattan, New York City from January 2010 until October 2018."),
+              p("Analysis of the number of rentable units in Manhattan, New York City from January 2010 until October 2018."),
 # What does my analysis show
-               helpText("In this tab we have provided the ability for experimentation on the data by anchoring on a specific area within Manhattan. The value here is to be able to compare unit availability/area popularity over the last 8 years to understand similarities and differences between the different areas"),
+              p("In this tab we have provided the ability for experimentation on the data by anchoring on a specific area within Manhattan. The value here is to be able to compare unit availability/area popularity over the last 8 years to understand similarities and differences between the different areas."),
 # Step by step instructions for the user 
-               HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-                          '1. Step uno', 
-                          '2. Step dos',
-                          '3. Step tres',
-                          '4. Step quatro',
-                          sep="<br/>")),
+              HTML(paste('<b style="font-size:22px">Instructions:</b>', 
+                         '1. Using the tabs (highlighted in pink), select a submarket that you would like to take a closer look at.', 
+                         '2. Using the drop-down menu, select which year(s) you would like to examine. All years have automatically been selected for you.',
+                         '3. If you would like, check the box "Add a linear model" to be able to see the trends more clearly.',
+                         '4. Be sure to toggle between tabs to compare and contrast the different submarkets of Manhattan.',
+                         sep="<br/>")),
                
                hr(),
                
@@ -201,9 +201,17 @@ ui <-
                       multiple = TRUE),
           # option for user to explore code further
           # create checkbox for linear model
-          checkboxInput("line", label = "Add linear model")
-          
-        ),
+          checkboxInput("line", label = "Add linear model"),
+          hr(),
+          h4('See Code:'),
+          HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/downtownMI.csv" target="_blank">Downtown</a>', 
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/midtownMI.csv" target="_blank">Midtown</a>', 
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/uppereastMI.csv" target="_blank">Upper East Side</a>', 
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/uppermanhattanMI.csv" target="_blank">Upper Manhattan</a>',
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/upperwestMI.csv" target="_blank">Upper West Side</a>',
+                     sep="<br/>"))
+          ),
+        
           mainPanel(
             # Output: Tabset w/ 5 plots for each submarket within Manhattan
             tabsetPanel(type = "tabs",
@@ -233,7 +241,7 @@ server <- function(input, output) {
   
   default_plot <- ggplot(data.frame()) +
     geom_point() + 
-    xlim(2010, 2018) + 
+    xlim(0, 12) + 
     ylim(0, 10000) +
     my_theme
   
