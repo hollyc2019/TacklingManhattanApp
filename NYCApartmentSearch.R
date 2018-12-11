@@ -149,8 +149,8 @@ ui <-
              tabPanel("About",
                       fluidPage(
                         fluidRow(
-                          h3("Beginning July 2019, New York City will be my new home, but where will I live???"),
-                          p("The purpose of this project is to explore various neighborhoods within Manhattan to help me make an informed decision as to where I should start my apartment hunt."),
+                          h3("What's going on here? Why should I care?"),
+                          p("Beginning July 2019, New York City will be my new home, but where will I live??? As you could probably deduce from the title of this app, 'Tackling Manhattan', The purpose of this project is to explore various neighborhoods within Manhattan to help me make an informed decision as to where I should start my apartment hunt."),
                           br(),
                           h3("What does this app let you do?"),
                           p("This app lets you explore the varying availability and price within the submarkets of Manhattan, NYC. I decided to focus on Manhattan at large because that is where my office is located and it is the most popular area within NYC. At this point in time, I know that I want to focus my efforts on Manhattan, but what lies within its border is up for grabs. I hope you are excited as I am to utilize NYC Open Data to make thoughtful analyses and plots.")
@@ -251,7 +251,20 @@ tabPanel(
              sep="<br/>")),
   hr()
   
-             )
+             ),
+tabPanel("Summary",
+         fluidPage(
+           fluidRow(
+             h3("Takeaways"),
+             p("Thank you for joining me on this journey to find me an apartment, or at least have a solid head start!"),
+             br(),
+             h3("What have I learned?"),
+             p("In the availability tab, I realized that over the years, the amount of rentable units surged in the summer months. When availability is high, that helps drive down price because the supply has increased. This is great news for me because after I graduate in May I'll be looking to sign a lease shortly thereafter."), 
+             br(),
+             h3("What next?"),
+             p("placeholder")
+           )
+         ))
           )
                    
               
