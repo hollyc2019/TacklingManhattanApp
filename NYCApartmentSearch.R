@@ -146,6 +146,16 @@ ui <-
   navbarPage("Tackling Manhattan",
              position="fixed-top",
              collapsible=TRUE,
+             tabPanel("About",
+                      fluidPage(
+                        fluidRow(
+                          h3("Beginning July 2019, New York City will be my new home, but where will I live???"),
+                          p("The purpose of this project is to explore various neighborhoods within Manhattan to help me make an informed decision as to where I should start my apartment hunt."),
+                          br(),
+                          h3("What does this app let you do?"),
+                          p("This app lets you explore the varying availability and price within the submarkets of Manhattan, NYC. I decided to focus on Manhattan at large because that is where my office is located and it is the most popular area within NYC. At this point in time, I know that I want to focus my efforts on Manhattan, but what lies within its border is up for grabs. I hope you are excited as I am to utilize NYC Open Data to make thoughtful analyses and plots.")
+                        )
+                      )),
 # The first tab on my app is Availability            
              tabPanel(
                "Availability",
@@ -229,7 +239,18 @@ tabPanel(
   "Price",
   tags$style(type = 'text/css', 
              'body {padding-top: 70px;}',
-             HTML(nav_bar_html))
+             HTML(nav_bar_html)), 
+  titlePanel("The Price is Right...or Is It?"), 
+  p("Analysis of median asking rent price for in Manhattan, New York City from January 2010 until October 2018."), 
+  p("In this tab we have provided the ability for experimentation on the data by anchoring on a specific area within Manhattan. The value here is to be able to get a better idea for what an apartment goes for in terms of price between the five submarkets in Manhattan and compare unit price over the last 8 years to understand similarities and differences between the different areas."),
+  HTML(paste('<b style="font-size:22px">Instructions:</b>', 
+             '1. Using the tabs (highlighted in pink), select a submarket that you would like to take a closer look at.', 
+             '2. Using the drop-down menu, select which year(s) you would like to examine. All years have automatically been selected for you.',
+             '3. If you would like, check the box "Add a linear model" to be able to see the trends more clearly.',
+             '4. Be sure to toggle between tabs to compare and contrast the different submarkets of Manhattan.',
+             sep="<br/>")),
+  hr()
+  
              )
           )
                    
