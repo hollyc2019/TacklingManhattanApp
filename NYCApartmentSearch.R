@@ -174,7 +174,7 @@ ui <-
         # Sidebar panel for interactive input
         sidebarPanel(
           # Describing how the data is already broken up by area within Manhattan for user simplicity
-          tags$b("The data is for the borough of Manhattan and is filtered by the top 5 submarkets within it."),
+          tags$b("The data is for the borough of Manhattan and is filtered by the top 5 submarkets within it. If you'd like to explore the data further, see the links below."),
           hr(),
           # directions for input
           h2("Choose years to display"),
@@ -223,8 +223,15 @@ ui <-
                      )
                    )
                  )
-               )
+               ),
+# The second tab on my app is Price            
+tabPanel(
+  "Price",
+  tags$style(type = 'text/css', 
+             'body {padding-top: 70px;}',
+             HTML(nav_bar_html))
              )
+          )
                    
               
 
