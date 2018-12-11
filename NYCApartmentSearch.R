@@ -13,33 +13,117 @@ library(shinythemes)
 library(plotly)
 library(readr)
 library(shinyWidgets)
-
-
-# reading in my datasets
-# dataset 1
+# Dataset 1
 #
-ZmedianAskingRent <- read_csv("/Users/hollychristensen/Desktop/finalproject/Gov1005FinalProject/medianAskingRent_All.csv")
+ZmedianAskingRent <- read_csv("medianAskingRent_All.csv")
 manhattanmedianaskingrent <- ZmedianAskingRent %>% 
   filter(Borough == "Manhattan") %>% 
   gather(key = "year_month", value = "asking_price", -c(areaName, areaType, Borough))
-# dataset 2
+# subsetting data for submarket 1 - Lower East Side Manhattan
+lower_eastP <- manhattanmedianaskingrent %>% 
+  select(areaName, year_month, asking_price) %>% 
+  filter(areaName == "Lower East Side") %>% 
+  separate(year_month, c("year", "month")) 
+lower_eastP$asking_price <- as.numeric(lower_eastP$asking_price)
+lower_eastP$month <- as.numeric(lower_eastP$month)
+write.csv(lower_eastP, "lower_eastP.csv")
+# repeating above but for the remaining submarkets
+# Submartket 2 - Chelsea Manhattan
+chelseaP <- manhattanmedianaskingrent %>% 
+  select(areaName, year_month, asking_price) %>% 
+  filter(areaName == "Chelsea") %>% 
+  separate(year_month, c("year", "month"))
+chelseaP$asking_price <- as.numeric(chelseaP$asking_price)
+chelseaP$month <- as.numeric(chelseaP$month)
+write.csv(chelseaP, "chelseaP.csv")
+# Submartket 3 - Soho Manhattan
+sohoP <- manhattanmedianaskingrent %>% 
+  select(areaName, year_month, asking_price) %>% 
+  filter(areaName == "Soho") %>% 
+  separate(year_month, c("year", "month")) 
+sohoP$asking_price <- as.numeric(sohoP$asking_price)
+sohoP$month <- as.numeric(sohoP$month)
+write.csv(sohoP, "sohoP.csv")
+# Submartket 4 - Upper Manhattan
+FiDiP <- manhattanmedianaskingrent %>% 
+  select(areaName, year_month, asking_price) %>% 
+  filter(areaName == "Financial District") %>% 
+  separate(year_month, c("year", "month")) 
+FiDiP$asking_price <- as.numeric(FiDiP$asking_price)
+FiDiP$month <- as.numeric(FiDiP$month)
+write.csv(FiDiP, "FiDiP.csv")
+# Submartket 5 - East Village Manhattan
+east_villageP <- manhattanmedianaskingrent %>% 
+  select(areaName, year_month, asking_price) %>% 
+  filter(areaName == "East Village") %>% 
+  separate(year_month, c("year", "month")) 
+east_villageP$asking_price <- as.numeric(east_villageP$asking_price)
+east_villageP$month <- as.numeric(east_villageP$month)
+write.csv(east_villageP, "east_villageP.csv")
+# Submartket 6 - West Village Manhattan
+west_villageP <- manhattanmedianaskingrent %>% 
+  select(areaName, year_month, asking_price) %>% 
+  filter(areaName == "West Village") %>% 
+  separate(year_month, c("year", "month")) 
+west_villageP$asking_price <- as.numeric(west_villageP$asking_price)
+west_villageP$month <- as.numeric(west_villageP$month)
+write.csv(west_villageP, "west_villageP.csv")
+# Submarket 7 - Gramercy Manhattan
+gramercyP <- manhattanmedianaskingrent %>% 
+  select(areaName, year_month, asking_price) %>% 
+  filter(areaName == "Gramercy Park") %>% 
+  separate(year_month, c("year", "month")) 
+gramercyP$asking_price <- as.numeric(gramercyP$asking_price)
+gramercyP$month <- as.numeric(gramercyP$month)
+write.csv(gramercyP, "gramercyP.csv")
+# Also Battery Park City, Central Harlem, Central Park South, Chelsea, Chinatown, Civic Center, East Harlem, Financial District, Flatiron, Gramercy Park, Greenwich Village, Hamilton Heights, Inwood, Little Italy, Lower East Side, Manhattan, Manhattanville, Marble Hill, Midtown East, Midtown South, Midtown West, Morningside Heights, Nolita, Roosevelt Island, Soho, Tribeca, West Harlem, West Village
+# Dataset 2
 #
-ZrentalInventory_All <- read_csv("/Users/hollychristensen/Desktop/finalproject/Gov1005FinalProject/rentalInventory_All.csv")
+ZrentalInventory_All <- read_csv("rentalInventory_All.csv")
 manhattaninventory <- ZrentalInventory_All %>% 
   filter(Borough == "Manhattan", areaType == "submarket") %>% 
-  gather(key = "year_month", value = "units", -c(areaName, areaType, Borough)) %>% 
-  group_by(areaName)
-# dataset 3
-#
-Zrollingsales_manhattan <- read_excel("/Users/hollychristensen/Desktop/finalproject/Gov1005FinalProject/rollingsales_manhattan.xls", skip = 4) 
-manhattan <- Zrollingsales_manhattan %>% 
-  filter(`BUILDING CLASS CATEGORY` == c("01 ONE FAMILY DWELLINGS", "02 TWO FAMILY DWELLINGS", "03 THREE FAMILY DWELLINGS", "07 RENTALS - WALKUP APARTMENTS", "08 RENTALS - ELEVATOR APARTMENTS", "09 COOPS - WALKUP APARTMENTS", "10 COOPS - ELEVATOR APARTMENTS"), `SALE PRICE` <= 10000000) %>% 
-  group_by(`BUILDING CLASS CATEGORY`, `NEIGHBORHOOD`)
-# dataset 4
-#
-ZOpen_HPD_Violations <- read_csv("/Users/hollychristensen/Desktop/finalproject/Gov1005FinalProject/Open_HPD_Violations.csv")
-manhattanHPD <- ZOpen_HPD_Violations %>% 
-  filter(Borough == 'MANHATTAN')
+  gather(key = "year_month", value = "units", -c(areaName, areaType, Borough))
+# subsetting data for submarket 1 - Downtown Manhattan
+downtownMI <-manhattaninventory %>% 
+  select(areaName, year_month, units) %>% 
+  filter(areaName == "All Downtown") %>% 
+  separate(year_month, c("year", "month")) 
+downtownMI$units <- as.numeric(downtownMI$units)
+downtownMI$month <- as.numeric(downtownMI$month)
+write.csv(downtownMI, "downtownMI.csv")
+# repeating above but for the remaining 4 submarkets
+# Midtown Manhattan
+midtownMI <-manhattaninventory %>% 
+  select(areaName, year_month, units) %>% 
+  filter(areaName == "All Midtown") %>% 
+  separate(year_month, c("year", "month"))
+midtownMI$units <- as.numeric(midtownMI$units)
+midtownMI$month <- as.numeric(midtownMI$month)
+write.csv(midtownMI, "midtownMI.csv")
+# Upper East Side Manhattan
+uppereastMI <-manhattaninventory %>% 
+  select(areaName, year_month, units) %>% 
+  filter(areaName == "All Upper East Side") %>% 
+  separate(year_month, c("year", "month"))
+uppereastMI$units <- as.numeric(uppereastMI$units)
+uppereastMI$month <- as.numeric(uppereastMI$month)
+write.csv(uppereastMI, "uppereastMI.csv")
+# Upper Manhattan
+uppermanhattanMI <-manhattaninventory %>% 
+  select(areaName, year_month, units) %>% 
+  filter(areaName == "All Upper Manhattan") %>% 
+  separate(year_month, c("year", "month"))
+uppermanhattanMI$units <- as.numeric(uppermanhattanMI$units)
+uppermanhattanMI$month <- as.numeric(uppermanhattanMI$month)
+write.csv(uppermanhattanMI, "uppermanhattanMI.csv")
+# Upper West Side Manhattan
+upperwestMI <-manhattaninventory %>% 
+  select(areaName, year_month, units) %>% 
+  filter(areaName == "All Upper West Side") %>% 
+  separate(year_month, c("year", "month"))
+upperwestMI$units <- as.numeric(upperwestMI$units)
+upperwestMI$month <- as.numeric(upperwestMI$month)
+write.csv(upperwestMI, "upperwestMI.csv")
 
 # Navigation Bar Design
 # Playing with various color choices
@@ -55,7 +139,6 @@ background-color: #F7FE2E !important;
 background-color: #FA58F4 !important;
 }'
 
-year_choices <- c("2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018")
 
 # Define shiny UI 
 ui <- 
