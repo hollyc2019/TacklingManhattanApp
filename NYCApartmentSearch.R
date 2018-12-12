@@ -308,26 +308,26 @@ ui <-
                     checkboxInput("line", label = "Add linear model"),
                     hr(),
                     h4('See Code:'),
-                    HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastMI.csv" target="_blank">Lower East Side</a>', 
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/chelseaMI.csv" target="_blank">Chelsea</a>', 
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/sohoMI.csv" target="_blank">Soho</a>', 
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/fidiMI.csv" target="_blank">Financial District</a>',
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/eastvillageMI.csv" target="_blank">East Village</a>',
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/westvillageMI.csv" target="_blank">West Village</a>',
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/gramercyMI.csv" target="_blank">Gramercy Park</a>',
+                    HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastP.csv" target="_blank">Lower East Side</a>', 
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/chelseaP.csv" target="_blank">Chelsea</a>', 
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/sohoP.csv" target="_blank">Soho</a>', 
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/fidiP.csv" target="_blank">Financial District</a>',
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/east_villageP.csv" target="_blank">East Village</a>',
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/west_villageP.csv" target="_blank">West Village</a>',
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/gramercyP.csv" target="_blank">Gramercy Park</a>',
                                sep="<br/>"))
                   ),
                   
                   mainPanel(
                     # Output: Tabset w/ plots for the popular neighborhoods within Manhattan
                     tabsetPanel(type = "tabs",
-                                tabPanel("Lower East Side", plotOutput("plot_lowereastMI")),
-                                tabPanel("Chelsea", plotOutput("plot_chelseaMI")),
-                                tabPanel("Soho", plotOutput("plot_sohoMI")), 
-                                tabPanel("Financial District", plotOutput("plot_fidiMI")), 
-                                tabPanel("East Village", plotOutput("plot_eastvillageMI")),
-                                tabPanel("West Village", plotOutput("plot_westvillageMI")),
-                                tabPanel("Gramercy Park", plotOutput("plot_gramercyMI")))))),
+                                tabPanel("Lower East Side", plotOutput("plot_lowereastP")),
+                                tabPanel("Chelsea", plotOutput("plot_chelseaP")),
+                                tabPanel("Soho", plotOutput("plot_sohoP")), 
+                                tabPanel("Financial District", plotOutput("plot_fidiP")), 
+                                tabPanel("East Village", plotOutput("plot_eastvillageP")),
+                                tabPanel("West Village", plotOutput("plot_westvillageP")),
+                                tabPanel("Gramercy Park", plotOutput("plot_gramercyP")))))),
 tabPanel("Summary",
          fluidPage(
            fluidRow(
@@ -541,6 +541,190 @@ server <- function(input, output) {
              y = "Units",
              title = "Availability of Rental Units Over the Last 8 Years",
              subtitle = "Helpful analysis for deciding when to buy")
+    }
+  })
+  
+# Repeating the same process but for the price output plots
+  output$plot_lowereastP <- renderPlot({
+    # filter data for selected years
+    plot_lowereastP <- reactive({
+      plot_lowereastP <- lower_eastP[lower_eastP$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_lowereastP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+    else{
+      ggplot(data = plot_lowereastP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+  })
+  
+  output$plot_chelseaP <- renderPlot({
+    # filter data for selected years
+    plot_chelseaP <- reactive({
+      plot_chelseaP <- chelseaP[chelseaP$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_chelseaP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+    else{
+      ggplot(data = plot_chelseaP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+  })
+  
+  output$plot_sohoP <- renderPlot({
+    # filter data for selected years
+    plot_sohoP <- reactive({
+      plot_sohoP <- sohoP[sohoP$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_sohoP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+    else{
+      ggplot(data = plot_sohoP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+  })
+  
+  
+  output$plot_fidiP <- renderPlot({
+    # filter data for selected years
+    plot_fidiP <- reactive({
+      plot_fidiP <- FiDiP[FiDiP$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_fidiP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+    else{
+      ggplot(data = plot_fidiP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+  })
+  
+  output$plot_eastvillageP <- renderPlot({
+    # filter data for selected years
+    plot_eastvillageP <- reactive({
+      plot_eastvillageP <- east_villageP[east_villageP$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_eastvillageP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+    else{
+      ggplot(data = plot_eastvillageP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+  })
+  
+  output$plot_westvillageP <- renderPlot({
+    # filter data for selected years
+    plot_westvillageP <- reactive({
+      plot_westvillageP <- west_villageP[west_villageP$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_westvillageP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+    else{
+      ggplot(data = plot_westvillageP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+  })
+  
+  output$plot_gramercyP <- renderPlot({
+    # filter data for selected years
+    plot_gramercyP <- reactive({
+      plot_gramercyP <- gramercyP[gramercyP$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_gramercyP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
+    }
+    else{
+      ggplot(data = plot_gramercyP(), aes_string(x = "month", y = "asking_price", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Price",
+             title = "Median Asking Price of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for seeing what neighborhood fits your budget")
     }
   })
 }
