@@ -305,7 +305,7 @@ ui <-
                                 multiple = TRUE),
                     # option for user to explore code further
                     # create checkbox for linear model
-                    checkboxInput("line", label = "Add linear model"),
+                    checkboxInput("line2", label = "Add linear model"),
                     hr(),
                     h4('See Code:'),
                     HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastP.csv" target="_blank">Lower East Side</a>', 
@@ -552,7 +552,7 @@ server <- function(input, output) {
     })
     
     # use if statement to create different plots for with and without linear model selection
-    if(input$line == TRUE) {
+    if(input$line2 == TRUE) {
       ggplot(data = plot_lowereastP(), aes_string(x = "month", y = "asking_price", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
@@ -578,7 +578,7 @@ server <- function(input, output) {
     })
     
     # use if statement to create different plots for with and without linear model selection
-    if(input$line == TRUE) {
+    if(input$line2 == TRUE) {
       ggplot(data = plot_chelseaP(), aes_string(x = "month", y = "asking_price", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
@@ -604,7 +604,7 @@ server <- function(input, output) {
     })
     
     # use if statement to create different plots for with and without linear model selection
-    if(input$line == TRUE) {
+    if(input$line2 == TRUE) {
       ggplot(data = plot_sohoP(), aes_string(x = "month", y = "asking_price", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
@@ -631,7 +631,7 @@ server <- function(input, output) {
     })
     
     # use if statement to create different plots for with and without linear model selection
-    if(input$line == TRUE) {
+    if(input$line2 == TRUE) {
       ggplot(data = plot_fidiP(), aes_string(x = "month", y = "asking_price", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
@@ -657,7 +657,7 @@ server <- function(input, output) {
     })
     
     # use if statement to create different plots for with and without linear model selection
-    if(input$line == TRUE) {
+    if(input$line2 == TRUE) {
       ggplot(data = plot_eastvillageP(), aes_string(x = "month", y = "asking_price", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
@@ -683,7 +683,7 @@ server <- function(input, output) {
     })
     
     # use if statement to create different plots for with and without linear model selection
-    if(input$line == TRUE) {
+    if(input$line2 == TRUE) {
       ggplot(data = plot_westvillageP(), aes_string(x = "month", y = "asking_price", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
@@ -709,7 +709,7 @@ server <- function(input, output) {
     })
     
     # use if statement to create different plots for with and without linear model selection
-    if(input$line == TRUE) {
+    if(input$line2 == TRUE) {
       ggplot(data = plot_gramercyP(), aes_string(x = "month", y = "asking_price", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
