@@ -81,49 +81,65 @@ write.csv(gramercyP, "gramercyP.csv")
 #
 ZrentalInventory_All <- read_csv("rentalInventory_All.csv")
 manhattaninventory <- ZrentalInventory_All %>% 
-  filter(Borough == "Manhattan", areaType == "submarket") %>% 
+  filter(Borough == "Manhattan", areaType == "neighborhood") %>% 
   gather(key = "year_month", value = "units", -c(areaName, areaType, Borough))
-# subsetting data for submarket 1 - Downtown Manhattan
-downtownMI <-manhattaninventory %>% 
+# subsetting data for submarket 1 - Lower East Side Manhattan
+lower_eastMI <-manhattaninventory %>% 
   select(areaName, year_month, units) %>% 
-  filter(areaName == "All Downtown") %>% 
+  filter(areaName == "Lower East Side") %>% 
   separate(year_month, c("year", "month")) 
-downtownMI$units <- as.numeric(downtownMI$units)
-downtownMI$month <- as.numeric(downtownMI$month)
-write.csv(downtownMI, "downtownMI.csv")
+lower_eastMI$units <- as.numeric(lower_eastMI$units)
+lower_eastMI$month <- as.numeric(lower_eastMI$month)
+write.csv(lower_eastMI, "lower_eastMI.csv")
 # repeating above but for the remaining 4 submarkets
-# Midtown Manhattan
-midtownMI <-manhattaninventory %>% 
+# Chelsea Manhattan
+chelseaMI <-manhattaninventory %>% 
   select(areaName, year_month, units) %>% 
-  filter(areaName == "All Midtown") %>% 
+  filter(areaName == "Chelsea") %>% 
   separate(year_month, c("year", "month"))
-midtownMI$units <- as.numeric(midtownMI$units)
-midtownMI$month <- as.numeric(midtownMI$month)
-write.csv(midtownMI, "midtownMI.csv")
-# Upper East Side Manhattan
-uppereastMI <-manhattaninventory %>% 
+chelseaMI$units <- as.numeric(chelseaMI$units)
+chelseaMI$month <- as.numeric(chelseaMI$month)
+write.csv(chelseaMI, "chelseaMI.csv")
+# Soho Manhattan
+sohoMI <-manhattaninventory %>% 
   select(areaName, year_month, units) %>% 
-  filter(areaName == "All Upper East Side") %>% 
+  filter(areaName == "Soho") %>% 
   separate(year_month, c("year", "month"))
-uppereastMI$units <- as.numeric(uppereastMI$units)
-uppereastMI$month <- as.numeric(uppereastMI$month)
-write.csv(uppereastMI, "uppereastMI.csv")
-# Upper Manhattan
-uppermanhattanMI <-manhattaninventory %>% 
+sohoMI$units <- as.numeric(sohoMI$units)
+sohoMI$month <- as.numeric(sohoMI$month)
+write.csv(sohoMI, "sohoMI.csv")
+# Financial District Manhattan
+fidiMI <-manhattaninventory %>% 
   select(areaName, year_month, units) %>% 
-  filter(areaName == "All Upper Manhattan") %>% 
+  filter(areaName == "Financial District") %>% 
   separate(year_month, c("year", "month"))
-uppermanhattanMI$units <- as.numeric(uppermanhattanMI$units)
-uppermanhattanMI$month <- as.numeric(uppermanhattanMI$month)
-write.csv(uppermanhattanMI, "uppermanhattanMI.csv")
-# Upper West Side Manhattan
-upperwestMI <-manhattaninventory %>% 
+fidiMI$units <- as.numeric(fidiMI$units)
+fidiMI$month <- as.numeric(fidiMI$month)
+write.csv(fidiMI, "fidiMI.csv")
+# East Village Manhattan
+eastvillageMI <-manhattaninventory %>% 
   select(areaName, year_month, units) %>% 
-  filter(areaName == "All Upper West Side") %>% 
+  filter(areaName == "East Village") %>% 
   separate(year_month, c("year", "month"))
-upperwestMI$units <- as.numeric(upperwestMI$units)
-upperwestMI$month <- as.numeric(upperwestMI$month)
-write.csv(upperwestMI, "upperwestMI.csv")
+eastvillageMI$units <- as.numeric(eastvillageMI$units)
+eastvillageMI$month <- as.numeric(eastvillageMI$month)
+write.csv(eastvillageMI, "eastvillageMI.csv")
+# West Village Manhattan
+westvillageMI <-manhattaninventory %>% 
+  select(areaName, year_month, units) %>% 
+  filter(areaName == "West Village") %>% 
+  separate(year_month, c("year", "month"))
+westvillageMI$units <- as.numeric(westvillageMI$units)
+westvillageMI$month <- as.numeric(westvillageMI$month)
+write.csv(westvillageMI, "westvillageMI.csv")
+# Gramercy Manhattan
+gramercyMI <-manhattaninventory %>% 
+  select(areaName, year_month, units) %>% 
+  filter(areaName == "Gramercy Park") %>% 
+  separate(year_month, c("year", "month"))
+gramercyMI$units <- as.numeric(gramercyMI$units)
+gramercyMI$month <- as.numeric(gramercyMI$month)
+write.csv(gramercyMI, "gramercyMI.csv")
 
 # Navigation Bar Design
 # Playing with various color choices
@@ -184,7 +200,7 @@ ui <-
         # Sidebar panel for interactive input
         sidebarPanel(
           # Describing how the data is already broken up by area within Manhattan for user simplicity
-          tags$b("The data is for the borough of Manhattan and is filtered by the top 5 submarkets within it. If you'd like to explore the data further, see the links below."),
+          tags$b("The data is for the borough of Manhattan and is filtered by the top neighborhoods within it. If you'd like to explore the data further, see the links below."),
           hr(),
           # directions for input
           h2("Choose years to display"),
@@ -214,22 +230,28 @@ ui <-
           checkboxInput("line", label = "Add linear model"),
           hr(),
           h4('See Code:'),
-          HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/downtownMI.csv" target="_blank">Downtown</a>', 
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/midtownMI.csv" target="_blank">Midtown</a>', 
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/uppereastMI.csv" target="_blank">Upper East Side</a>', 
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/uppermanhattanMI.csv" target="_blank">Upper Manhattan</a>',
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/upperwestMI.csv" target="_blank">Upper West Side</a>',
+          HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastMI.csv" target="_blank">Lower East Side</a>', 
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/chelseaMI.csv" target="_blank">Chelsea</a>', 
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/sohoMI.csv" target="_blank">Soho</a>', 
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/fidiMI.csv" target="_blank">Financial District</a>',
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/eastvillageMI.csv" target="_blank">East Village</a>',
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/westvillageMI.csv" target="_blank">West Village</a>',
+                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/gramercyMI.csv" target="_blank">Gramercy Park</a>',
                      sep="<br/>"))
           ),
         
           mainPanel(
-            # Output: Tabset w/ 5 plots for each submarket within Manhattan
+            # Output: Tabset w/ plots for the popular neighborhoods within Manhattan
             tabsetPanel(type = "tabs",
-                        tabPanel("Downtown", plotOutput("plot_boroughs_Downtown")),
-                        tabPanel("Midtown", plotOutput("plot_boroughs_Midtown")),
-                        tabPanel("Upper East Side", plotOutput("plot_boroughs_Upper_East")), 
-                        tabPanel("Upper Manhattan", plotOutput("plot_boroughs_Upper_Manhattan")), 
-                        tabPanel("Upper West Side", plotOutput("plot_boroughs_Upper_West"))
+                        tabPanel("Lower East Side", plotOutput("plot_lowereastMI")),
+                        tabPanel("Chelsea", plotOutput("plot_chelseaMI")),
+                        tabPanel("Soho", plotOutput("plot_sohoMI")), 
+                        tabPanel("Financial District", plotOutput("plot_fidiMI")), 
+                        tabPanel("East Village", plotOutput("plot_eastvillageMI")),
+                        tabPanel("West Village", plotOutput("plot_westvillageMI")),
+                        tabPanel("Gramercy Park", plotOutput("plot_gramercyMI"))
+                        
+                        
                      )
                    )
                  )
@@ -286,15 +308,15 @@ server <- function(input, output) {
     ylim(0, 10000) +
     my_theme
   
-  output$plot_boroughs_Downtown <- renderPlot({
+  output$plot_lowereastMI <- renderPlot({
     # filter data for selected years
-    plot_boroughs_Downtown <- reactive({
-      plot_boroughs_Downtown <- downtownMI[downtownMI$year %in% input$year, ]
+    plot_lowereastMI <- reactive({
+      plot_lowereastMI <- lower_eastMI[lower_eastMI$year %in% input$year, ]
   })
   
   # use if statement to create different plots for with and without linear model selection
   if(input$line == TRUE) {
-    ggplot(data = plot_boroughs_Downtown(), aes_string(x = "month", y = "units", color = "year")) +
+    ggplot(data = plot_lowereastMI(), aes_string(x = "month", y = "units", color = "year")) +
       geom_point() +
       geom_smooth(method=loess) +
       labs(x = "Month",
@@ -303,7 +325,7 @@ server <- function(input, output) {
            subtitle = "Helpful analysis for deciding when to buy")
   }
   else{
-    ggplot(data = plot_boroughs_Downtown(), aes_string(x = "month", y = "units", color = "year")) +
+    ggplot(data = plot_lowereastMI(), aes_string(x = "month", y = "units", color = "year")) +
       geom_point() +
       labs(x = "Month",
            y = "Units",
@@ -312,15 +334,15 @@ server <- function(input, output) {
   }
 })
   
-  output$plot_boroughs_Midtown <- renderPlot({
+  output$plot_chelseaMI <- renderPlot({
     # filter data for selected years
-    plot_boroughs_Midtown <- reactive({
-      plot_boroughs_Midtown <- midtownMI[midtownMI$year %in% input$year, ]
+    plot_chelseaMI <- reactive({
+      plot_chelseaMI <- chelseaMI[chelseaMI$year %in% input$year, ]
     })
     
     # use if statement to create different plots for with and without linear model selection
     if(input$line == TRUE) {
-      ggplot(data = plot_boroughs_Midtown(), aes_string(x = "month", y = "units", color = "year")) +
+      ggplot(data = plot_chelseaMI(), aes_string(x = "month", y = "units", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
         labs(x = "Month",
@@ -329,7 +351,7 @@ server <- function(input, output) {
              subtitle = "Helpful analysis for deciding when to buy")
     }
     else{
-      ggplot(data = plot_boroughs_Midtown(), aes_string(x = "month", y = "units", color = "year")) +
+      ggplot(data = plot_chelseaMI(), aes_string(x = "month", y = "units", color = "year")) +
         geom_point() +
         labs(x = "Month",
              y = "Units",
@@ -338,15 +360,15 @@ server <- function(input, output) {
     }
   })
   
-  output$plot_boroughs_Upper_East <- renderPlot({
+  output$plot_sohoMI <- renderPlot({
     # filter data for selected years
-    plot_boroughs_Upper_East <- reactive({
-      plot_boroughs_Upper_East <- uppereastMI[uppereastMI$year %in% input$year, ]
+    plot_sohoMI <- reactive({
+      plot_sohoMI <- sohoMI[sohoMI$year %in% input$year, ]
     })
     
     # use if statement to create different plots for with and without linear model selection
     if(input$line == TRUE) {
-      ggplot(data = plot_boroughs_Upper_East(), aes_string(x = "month", y = "units", color = "year")) +
+      ggplot(data = plot_sohoMI(), aes_string(x = "month", y = "units", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
         labs(x = "Month",
@@ -355,7 +377,7 @@ server <- function(input, output) {
              subtitle = "Helpful analysis for deciding when to buy")
     }
     else{
-      ggplot(data = plot_boroughs_Upper_East(), aes_string(x = "month", y = "units", color = "year")) +
+      ggplot(data = plot_sohoMI(), aes_string(x = "month", y = "units", color = "year")) +
         geom_point() +
         labs(x = "Month",
              y = "Units",
@@ -364,15 +386,15 @@ server <- function(input, output) {
     }
   })
   
-  output$plot_boroughs_Upper_Manhattan <- renderPlot({
+  output$plot_fidiMI <- renderPlot({
     # filter data for selected years
-    plot_boroughs_Upper_Manhattan <- reactive({
-      plot_boroughs_Upper_Manhattan <- uppermanhattanMI[uppermanhattanMI$year %in% input$year, ]
+    plot_fidiMI <- reactive({
+      plot_fidiMI <- fidiMI[fidiMI$year %in% input$year, ]
     })
     
     # use if statement to create different plots for with and without linear model selection
     if(input$line == TRUE) {
-      ggplot(data = plot_boroughs_Upper_Manhattan(), aes_string(x = "month", y = "units", color = "year")) +
+      ggplot(data = plot_fidiMI(), aes_string(x = "month", y = "units", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
         labs(x = "Month",
@@ -381,7 +403,7 @@ server <- function(input, output) {
              subtitle = "Helpful analysis for deciding when to buy")
     }
     else{
-      ggplot(data = plot_boroughs_Upper_Manhattan(), aes_string(x = "month", y = "units", color = "year")) +
+      ggplot(data = plot_fidiMI(), aes_string(x = "month", y = "units", color = "year")) +
         geom_point() +
         labs(x = "Month",
              y = "Units",
@@ -390,15 +412,15 @@ server <- function(input, output) {
     }
   })
   
-  output$plot_boroughs_Upper_West <- renderPlot({
+  output$plot_eastvillageMI <- renderPlot({
     # filter data for selected years
-    plot_boroughs_Upper_West <- reactive({
-      plot_boroughs_Upper_West <- upperwestMI[upperwestMI$year %in% input$year, ]
+    plot_eastvillageMI <- reactive({
+      plot_eastvillageMI <- eastvillageMI[eastvillageMI$year %in% input$year, ]
     })
     
     # use if statement to create different plots for with and without linear model selection
     if(input$line == TRUE) {
-      ggplot(data = plot_boroughs_Upper_West(), aes_string(x = "month", y = "units", color = "year")) +
+      ggplot(data = plot_eastvillageMI(), aes_string(x = "month", y = "units", color = "year")) +
         geom_point() +
         geom_smooth(method=loess) +
         labs(x = "Month",
@@ -407,7 +429,59 @@ server <- function(input, output) {
              subtitle = "Helpful analysis for deciding when to buy")
     }
     else{
-      ggplot(data = plot_boroughs_Upper_West(), aes_string(x = "month", y = "units", color = "year")) +
+      ggplot(data = plot_eastvillageMI(), aes_string(x = "month", y = "units", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Units",
+             title = "Availability of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for deciding when to buy")
+    }
+  })
+  
+  output$plot_westvillageMI <- renderPlot({
+    # filter data for selected years
+    plot_westvillageMI <- reactive({
+      plot_westvillageMI <- westvillageMI[westvillageMI$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_westvillageMI(), aes_string(x = "month", y = "units", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Units",
+             title = "Availability of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for deciding when to buy")
+    }
+    else{
+      ggplot(data = plot_westvillageMI(), aes_string(x = "month", y = "units", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Units",
+             title = "Availability of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for deciding when to buy")
+    }
+  })
+  
+  output$plot_gramercyMI <- renderPlot({
+    # filter data for selected years
+    plot_gramercyMI <- reactive({
+      plot_gramercyMI <- gramercyMI[gramercyMI$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_gramercyMI(), aes_string(x = "month", y = "units", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Units",
+             title = "Availability of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for deciding when to buy")
+    }
+    else{
+      ggplot(data = plot_gramercyMI(), aes_string(x = "month", y = "units", color = "year")) +
         geom_point() +
         labs(x = "Month",
              y = "Units",
