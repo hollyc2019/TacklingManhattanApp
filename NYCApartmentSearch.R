@@ -257,23 +257,77 @@ ui <-
                  )
                ),
 # The second tab on my app is Price            
-tabPanel(
-  "Price",
-  tags$style(type = 'text/css', 
-             'body {padding-top: 70px;}',
-             HTML(nav_bar_html)), 
-  titlePanel("The Price is Right...or Is It?"), 
-  p("Analysis of median asking rent price for in Manhattan, New York City from January 2010 until October 2018."), 
-  p("In this tab we have provided the ability for experimentation on the data by anchoring on a specific area within Manhattan. The value here is to be able to get a better idea for what an apartment goes for in terms of price between the five submarkets in Manhattan and compare unit price over the last 8 years to understand similarities and differences between the different areas."),
-  HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-             '1. Using the tabs (highlighted in pink), select a submarket that you would like to take a closer look at.', 
-             '2. Using the drop-down menu, select which year(s) you would like to examine. All years have automatically been selected for you.',
-             '3. If you would like, check the box "Add a linear model" to be able to see the trends more clearly.',
-             '4. Be sure to toggle between tabs to compare and contrast the different submarkets of Manhattan.',
-             sep="<br/>")),
-  hr()
-  
-             ),
+              tabPanel(
+                "Price",
+                tags$style(type = 'text/css', 
+                           'body {padding-top: 70px;}',
+                           HTML(nav_bar_html)), 
+                titlePanel("The Price is Right...or Is It?"), 
+                p("Analysis of median asking rent price for in Manhattan, New York City from January 2010 until October 2018."), 
+                p("In this tab we have provided the ability for experimentation on the data by anchoring on a specific area within Manhattan. The value here is to be able to get a better idea for what an apartment goes for in terms of price between the five submarkets in Manhattan and compare unit price over the last 8 years to understand similarities and differences between the different areas."),
+                HTML(paste('<b style="font-size:22px">Instructions:</b>', 
+                           '1. Using the tabs (highlighted in pink), select a submarket that you would like to take a closer look at.', 
+                           '2. Using the drop-down menu, select which year(s) you would like to examine. All years have automatically been selected for you.',
+                           '3. If you would like, check the box "Add a linear model" to be able to see the trends more clearly.',
+                           '4. Be sure to toggle between tabs to compare and contrast the different submarkets of Manhattan.',
+                           sep="<br/>")),
+                hr(),
+                
+                # Sidebar layout with input and output definitions
+                    sidebarLayout(
+                  # Sidebar panel for interactive input
+                  sidebarPanel(
+                    # Describing how the data is already broken up by area within Manhattan for user simplicity
+                    tags$b("The data is for the borough of Manhattan and is filtered by the top neighborhoods within it. If you'd like to explore the data further, see the links below."),
+                    hr(),
+                    # directions for input
+                    h2("Choose years to display"),
+                    # second input: drop-down menu to display selections for year
+                    pickerInput("year", "Years to show:", choices = c("2010" = "2010",
+                                                                      "2011" = "2011",
+                                                                      "2012" = "2012",
+                                                                      "2013" = "2013",
+                                                                      "2014" = "2014",
+                                                                      "2015" = "2015",
+                                                                      "2016" = "2016",
+                                                                      "2017" = "2017",
+                                                                      "2018" = "2018"),
+                                selected = c("2010" = "2010",
+                                             "2011" = "2011",
+                                             "2012" = "2012",
+                                             "2013" = "2013",
+                                             "2014" = "2014",
+                                             "2015" = "2015",
+                                             "2016" = "2016",
+                                             "2017" = "2017",
+                                             "2018" = "2018"), 
+                                options = list(`actions-box` = TRUE),
+                                multiple = TRUE),
+                    # option for user to explore code further
+                    # create checkbox for linear model
+                    checkboxInput("line", label = "Add linear model"),
+                    hr(),
+                    h4('See Code:'),
+                    HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastMI.csv" target="_blank">Lower East Side</a>', 
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/chelseaMI.csv" target="_blank">Chelsea</a>', 
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/sohoMI.csv" target="_blank">Soho</a>', 
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/fidiMI.csv" target="_blank">Financial District</a>',
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/eastvillageMI.csv" target="_blank">East Village</a>',
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/westvillageMI.csv" target="_blank">West Village</a>',
+                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/gramercyMI.csv" target="_blank">Gramercy Park</a>',
+                               sep="<br/>"))
+                  ),
+                  
+                  mainPanel(
+                    # Output: Tabset w/ plots for the popular neighborhoods within Manhattan
+                    tabsetPanel(type = "tabs",
+                                tabPanel("Lower East Side", plotOutput("plot_lowereastMI")),
+                                tabPanel("Chelsea", plotOutput("plot_chelseaMI")),
+                                tabPanel("Soho", plotOutput("plot_sohoMI")), 
+                                tabPanel("Financial District", plotOutput("plot_fidiMI")), 
+                                tabPanel("East Village", plotOutput("plot_eastvillageMI")),
+                                tabPanel("West Village", plotOutput("plot_westvillageMI")),
+                                tabPanel("Gramercy Park", plotOutput("plot_gramercyMI")))))),
 tabPanel("Summary",
          fluidPage(
            fluidRow(
