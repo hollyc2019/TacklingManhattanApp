@@ -5,8 +5,8 @@ account: hollyc2019
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 616666
-bundleId: 1762229
+bundleId: 1762252
 url: https://hollyc2019.shinyapps.io/TacklingManhattanAppFinal/
-when: 1544749739.02901
+when: 1544751311.49653
 asMultiple: FALSE
 asStatic: FALSE
