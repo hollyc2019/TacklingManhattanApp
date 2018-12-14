@@ -144,7 +144,7 @@ write.csv(gramercyMI, "gramercyMI.csv")
 # Navigation Bar Design
 # Playing with various color choices
 nav_bar_html = '.navbar { background-color: #B40431 }
-                .navbar-default
+.navbar-default
 .navbar-brand{color: #FFFFFF;}
 
 .navbar-nav li a:hover, .navbar-nav > .active > a {
@@ -159,11 +159,11 @@ background-color: #01A9DB !important;
 
 # Define shiny UI 
 ui <- 
-# This is the title of my app with proper formatting 
+  # This is the title of my app with proper formatting 
   navbarPage("Tackling Manhattan",
              position="fixed-top",
              collapsible=TRUE,
-# This is the first tab on my app, an about page
+             # This is the first tab on my app, an about page
              tabPanel("About",
                       fluidPage(
                         fluidRow(
@@ -177,208 +177,208 @@ ui <-
                           p("This app lets you explore the varying availability and price within a handful of neighborhoods within Manhattan, NYC. I decided to focus on Manhattan at large because that is where my office is located. While I know that I want to focus my efforts on Manhattan, what lies within its border is fair game. I have little idea of what neighborhoods within Manhattan are recommended for graduates like me and I'm excited to begin the process. Join me and be sure to record any and all feedback in the Takeaways tab! Thank you!")
                         )
                       )),
-# The second tab on my app is Availability            
+             # The second tab on my app is Availability            
              tabPanel(
                "Availability",
                tags$style(type = 'text/css', 
                           'body {padding-top: 70px;}',
                           HTML(nav_bar_html)
                ),
-# The title for the Availability tab             
-              titlePanel("Rental Availability by Area"),
-              br(),
-# Subtitle describing what I'm analyzing
-              p("Analysis of the number of rentable units in Manhattan, New York City from January 2010 until October 2018."),
-# What does my analysis show
-              br(),
-              p("In this tab we have provided the ability for experimentation on the data by anchoring on a specific area within Manhattan. The value here is to be able to compare unit availability/area popularity over the last 8 years to understand similarities and differences between the different areas."),
-# Step by step instructions for the user 
-              br(),
-              HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-                         '1. Using the tabs (highlighted in snowflake blue), select a neighborhood that you would like to take a closer look at.', 
-                         '2. Using the drop-down menu, select which year(s) you would like to examine. All years have automatically been selected for you.',
-                         '3. If you would like, check the box "Add a linear model" to be able to see the trends more clearly.',
-                         '4. Be sure to toggle between tabs to compare and contrast the different neighborhoods of Manhattan.',
-                         sep="<br/>")),
+               # The title for the Availability tab             
+               titlePanel("Rental Availability by Area"),
+               br(),
+               # Subtitle describing what I'm analyzing
+               p("Analysis of the number of rentable units in Manhattan, New York City from January 2010 until October 2018."),
+               # What does my analysis show
+               br(),
+               p("In this tab we have provided the ability for experimentation on the data by anchoring on a specific area within Manhattan. The value here is to be able to compare unit availability/area popularity over the last 8 years to understand similarities and differences between the different areas."),
+               # Step by step instructions for the user 
+               br(),
+               HTML(paste('<b style="font-size:22px">Instructions:</b>', 
+                          '1. Using the tabs (highlighted in snowflake blue), select a neighborhood that you would like to take a closer look at.', 
+                          '2. Using the drop-down menu, select which year(s) you would like to examine. All years have automatically been selected for you.',
+                          '3. If you would like, check the box "Add a linear model" to be able to see the trends more clearly.',
+                          '4. Be sure to toggle between tabs to compare and contrast the different neighborhoods of Manhattan.',
+                          sep="<br/>")),
                
                hr(),
                
                # Sidebar layout with input and output definitions
-      sidebarLayout(
-        # Sidebar panel for interactive input
-        sidebarPanel(
-          # Describing how the data is already broken up by area within Manhattan for user simplicity
-          tags$b("The data is for the borough of Manhattan and is filtered by the top neighborhoods within it. If you'd like to explore the data further, see the links below."),
-          hr(),
-          # directions for input
-          h2("Choose years to display"),
-          # second input: drop-down menu to display selections for year
-          pickerInput("year", "Years to show:", choices = c("2010" = "2010",
-                                                            "2011" = "2011",
-                                                            "2012" = "2012",
-                                                            "2013" = "2013",
-                                                            "2014" = "2014",
-                                                            "2015" = "2015",
-                                                            "2016" = "2016",
-                                                            "2017" = "2017",
-                                                            "2018" = "2018"),
-                      selected = c("2010" = "2010",
-                                   "2011" = "2011",
-                                   "2012" = "2012",
-                                   "2013" = "2013",
-                                   "2014" = "2014",
-                                   "2015" = "2015",
-                                   "2016" = "2016",
-                                   "2017" = "2017",
-                                   "2018" = "2018"), 
-                      options = list(`actions-box` = TRUE),
-                      multiple = TRUE),
-          # option for user to explore code further
-          # create checkbox for linear model
-          checkboxInput("line", label = "Add linear model"),
-          hr(),
-# letting the user explore datasets more closely with clickable links to my github
-          h4('See Code:'),
-          HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastMI.csv" target="_blank">Lower East Side</a>', 
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/chelseaMI.csv" target="_blank">Chelsea</a>', 
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/sohoMI.csv" target="_blank">Soho</a>', 
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/fidiMI.csv" target="_blank">Financial District</a>',
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/eastvillageMI.csv" target="_blank">East Village</a>',
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/westvillageMI.csv" target="_blank">West Village</a>',
-                     '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/gramercyMI.csv" target="_blank">Gramercy Park</a>',
-                     sep="<br/>"))
-          ),
-        
-          mainPanel(
-# Output: Tabset w/ plots for the popular neighborhoods within Manhattan, as recommended by my brother, a East Village native for 2 years
-            tabsetPanel(type = "tabs",
-                        tabPanel("Lower East Side", plotOutput("plot_lowereastMI")),
-                        tabPanel("Chelsea", plotOutput("plot_chelseaMI")),
-                        tabPanel("Soho", plotOutput("plot_sohoMI")), 
-                        tabPanel("Financial District", plotOutput("plot_fidiMI")), 
-                        tabPanel("East Village", plotOutput("plot_eastvillageMI")),
-                        tabPanel("West Village", plotOutput("plot_westvillageMI")),
-                        tabPanel("Gramercy Park", plotOutput("plot_gramercyMI"))
-                        
-                        
-                     )
+               sidebarLayout(
+                 # Sidebar panel for interactive input
+                 sidebarPanel(
+                   # Describing how the data is already broken up by area within Manhattan for user simplicity
+                   tags$b("The data is for the borough of Manhattan and is filtered by the top neighborhoods within it. If you'd like to explore the data further, see the links below."),
+                   hr(),
+                   # directions for input
+                   h2("Choose years to display"),
+                   # second input: drop-down menu to display selections for year
+                   pickerInput("year", "Years to show:", choices = c("2010" = "2010",
+                                                                     "2011" = "2011",
+                                                                     "2012" = "2012",
+                                                                     "2013" = "2013",
+                                                                     "2014" = "2014",
+                                                                     "2015" = "2015",
+                                                                     "2016" = "2016",
+                                                                     "2017" = "2017",
+                                                                     "2018" = "2018"),
+                               selected = c("2010" = "2010",
+                                            "2011" = "2011",
+                                            "2012" = "2012",
+                                            "2013" = "2013",
+                                            "2014" = "2014",
+                                            "2015" = "2015",
+                                            "2016" = "2016",
+                                            "2017" = "2017",
+                                            "2018" = "2018"), 
+                               options = list(`actions-box` = TRUE),
+                               multiple = TRUE),
+                   # option for user to explore code further
+                   # create checkbox for linear model
+                   checkboxInput("line", label = "Add linear model"),
+                   hr(),
+                   # letting the user explore datasets more closely with clickable links to my github
+                   h4('See Code:'),
+                   HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastMI.csv" target="_blank">Lower East Side</a>', 
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/chelseaMI.csv" target="_blank">Chelsea</a>', 
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/sohoMI.csv" target="_blank">Soho</a>', 
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/fidiMI.csv" target="_blank">Financial District</a>',
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/eastvillageMI.csv" target="_blank">East Village</a>',
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/westvillageMI.csv" target="_blank">West Village</a>',
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/gramercyMI.csv" target="_blank">Gramercy Park</a>',
+                              sep="<br/>"))
+                 ),
+                 
+                 mainPanel(
+                   # Output: Tabset w/ plots for the popular neighborhoods within Manhattan, as recommended by my brother, a East Village native for 2 years
+                   tabsetPanel(type = "tabs",
+                               tabPanel("Lower East Side", plotOutput("plot_lowereastMI")),
+                               tabPanel("Chelsea", plotOutput("plot_chelseaMI")),
+                               tabPanel("Soho", plotOutput("plot_sohoMI")), 
+                               tabPanel("Financial District", plotOutput("plot_fidiMI")), 
+                               tabPanel("East Village", plotOutput("plot_eastvillageMI")),
+                               tabPanel("West Village", plotOutput("plot_westvillageMI")),
+                               tabPanel("Gramercy Park", plotOutput("plot_gramercyMI"))
+                               
+                               
                    )
                  )
-               ),
-# The third tab on my app is called Price  
-# Layout is very similar to the Availability tab
-              tabPanel(
-                "Price",
-                tags$style(type = 'text/css', 
-                           'body {padding-top: 70px;}',
-                           HTML(nav_bar_html)), 
-                titlePanel("The Price is Right...or Is It?"), 
-                br(),
-                p("Analysis of median asking rent price for in Manhattan, New York City from January 2010 until October 2018."), 
-                br(),
-                p("In this tab we have provided the ability for experimentation on the data by anchoring on a specific neighborhood within Manhattan. The value here is to be able to get a better idea for what an apartment goes for between a selection of neighborhoods in Manhattan and to be able to compare/contract their price trends over the last 8 years."),
-                br(),
-                HTML(paste('<b style="font-size:22px">Instructions:</b>', 
-                           '1. Using the tabs (highlighted in snowflake blue), select a neighborhood that you would like to take a closer look at.', 
-                           '2. Using the drop-down menu, select which year(s) you would like to examine. All years have automatically been selected for you.',
-                           '3. If you would like, check the box "Add a linear model" to be able to see the trends more clearly.',
-                           '4. Be sure to toggle between tabs to compare and contrast the different neighborhoods of Manhattan.',
-                           sep="<br/>")),
-                hr(),
-                
-                # Sidebar layout with input and output definitions
-                    sidebarLayout(
-                  # Sidebar panel for interactive input
-                  sidebarPanel(
-                    # Describing how the data is already broken up by area within Manhattan for user simplicity
-                    tags$b("The data is for the borough of Manhattan and is filtered by the top neighborhoods within it. If you'd like to explore the data further, see the links below."),
-                    hr(),
-                    # directions for input
-                    h2("Choose years to display"),
-                    # second input: drop-down menu to display selections for year
-                    pickerInput("year", "Years to show:", choices = c("2010" = "2010",
-                                                                      "2011" = "2011",
-                                                                      "2012" = "2012",
-                                                                      "2013" = "2013",
-                                                                      "2014" = "2014",
-                                                                      "2015" = "2015",
-                                                                      "2016" = "2016",
-                                                                      "2017" = "2017",
-                                                                      "2018" = "2018"),
-                                selected = c("2010" = "2010",
-                                             "2011" = "2011",
-                                             "2012" = "2012",
-                                             "2013" = "2013",
-                                             "2014" = "2014",
-                                             "2015" = "2015",
-                                             "2016" = "2016",
-                                             "2017" = "2017",
-                                             "2018" = "2018"), 
-                                options = list(`actions-box` = TRUE),
-                                multiple = TRUE),
-                    # option for user to explore code further
-                    # create checkbox for linear model
-                    checkboxInput("line2", label = "Add linear model"),
-                    hr(),
-                    h4('See Code:'),
-                    HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastP.csv" target="_blank">Lower East Side</a>', 
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/chelseaP.csv" target="_blank">Chelsea</a>', 
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/sohoP.csv" target="_blank">Soho</a>', 
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/fidiP.csv" target="_blank">Financial District</a>',
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/east_villageP.csv" target="_blank">East Village</a>',
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/west_villageP.csv" target="_blank">West Village</a>',
-                               '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/gramercyP.csv" target="_blank">Gramercy Park</a>',
-                               sep="<br/>"))
-                  ),
-                  
-                  mainPanel(
-                    # Output: Tabset w/ plots for the popular neighborhoods within Manhattan
-                    tabsetPanel(type = "tabs",
-                                tabPanel("Lower East Side", plotOutput("plot_lowereastP")),
-                                tabPanel("Chelsea", plotOutput("plot_chelseaP")),
-                                tabPanel("Soho", plotOutput("plot_sohoP")), 
-                                tabPanel("Financial District", plotOutput("plot_fidiP")), 
-                                tabPanel("East Village", plotOutput("plot_eastvillageP")),
-                                tabPanel("West Village", plotOutput("plot_westvillageP")),
-                                tabPanel("Gramercy Park", plotOutput("plot_gramercyP")))))),
-tabPanel("Takeaways",
-         fluidPage(
-           fluidRow(
-             h3("We did it!"),
-             br(),
-             p("Thank you for joining me on this journey to find an apartment, or at least the start of it!"),
-             br(),
-             h3("What have I learned?"),
-             p("Through making this app I have really come to appreciate the accessibility that Shiny offers 
-               and how easy it can be to create a presentable website once you know the basics. Completing 
-               this project was not an easy task by any means and it involved countless hours of trial and 
-               error, but I'm proud of the way it came out and I hope to expand on it later on/create new 
-               interactive apps in the future. On of the biggest struggles I had with this project was the
-               data itself. NYC is a big city with a HUGE amount of public data up for grabs. I had to narrow 
-               my focus and not take on too much so that my project could be succinct. At first I downloaded 
-               5 datasets, but then narrowed it to the two in order to focus on the critical aspects of 
-               Manhattan supply and demand: availability and price. Given the number of neighborhoods I wanted 
-               to explore, focusing on these two datasets was crucial to me completing a well-designed project
-               with helpful insights. Another challenge I faced was attempted to recreate zillow.com with a map 
-               of NYC and a pin of each and every available apartment within a 5 mile radius of my office. 
-               This was a lofty goal for a project and I soon realized that after facing barriers with Google 
-               API and a messy dataset that I had to forgo my interactive map idea. Afterall, Zillow has a 
-               whole team of developers working on their website at once, as a new coder I was no match. But, 
-               I'm very happy with what I was able to create in the end and I think it is a great first-look 
-               into my apartment search. One of the insights a user could deduce from my analysis is in the availability tab.
-                I realized that over the years, the amount of rentable units typically surge in the summer months. When availability is high, that helps
-               drive down price because the supply has increased. This is great news for me because after I 
-               graduate in May I'll be looking to sign a lease shortly thereafter."), 
-             br(),
-             h3("What next?"),
-             br(),
-             p("I would love to hear your thoughts!"),
-             HTML(paste('<a href="https://goo.gl/forms/nmdvgowMeiQUk8C73" target="_blank">Evaluation</a>', sep="<br/>"))
-           )
-         ))
-          )
-                   
-              
+               )
+             ),
+             # The third tab on my app is called Price  
+             # Layout is very similar to the Availability tab
+             tabPanel(
+               "Price",
+               tags$style(type = 'text/css', 
+                          'body {padding-top: 70px;}',
+                          HTML(nav_bar_html)), 
+               titlePanel("The Price is Right...or Is It?"), 
+               br(),
+               p("Analysis of median asking rent price for in Manhattan, New York City from January 2010 until October 2018."), 
+               br(),
+               p("In this tab we have provided the ability for experimentation on the data by anchoring on a specific neighborhood within Manhattan. The value here is to be able to get a better idea for what an apartment goes for between a selection of neighborhoods in Manhattan and to be able to compare/contract their price trends over the last 8 years."),
+               br(),
+               HTML(paste('<b style="font-size:22px">Instructions:</b>', 
+                          '1. Using the tabs (highlighted in snowflake blue), select a neighborhood that you would like to take a closer look at.', 
+                          '2. Using the drop-down menu, select which year(s) you would like to examine. All years have automatically been selected for you.',
+                          '3. If you would like, check the box "Add a linear model" to be able to see the trends more clearly.',
+                          '4. Be sure to toggle between tabs to compare and contrast the different neighborhoods of Manhattan.',
+                          sep="<br/>")),
+               hr(),
+               
+               # Sidebar layout with input and output definitions
+               sidebarLayout(
+                 # Sidebar panel for interactive input
+                 sidebarPanel(
+                   # Describing how the data is already broken up by area within Manhattan for user simplicity
+                   tags$b("The data is for the borough of Manhattan and is filtered by the top neighborhoods within it. If you'd like to explore the data further, see the links below."),
+                   hr(),
+                   # directions for input
+                   h2("Choose years to display"),
+                   # second input: drop-down menu to display selections for year
+                   pickerInput("year", "Years to show:", choices = c("2010" = "2010",
+                                                                     "2011" = "2011",
+                                                                     "2012" = "2012",
+                                                                     "2013" = "2013",
+                                                                     "2014" = "2014",
+                                                                     "2015" = "2015",
+                                                                     "2016" = "2016",
+                                                                     "2017" = "2017",
+                                                                     "2018" = "2018"),
+                               selected = c("2010" = "2010",
+                                            "2011" = "2011",
+                                            "2012" = "2012",
+                                            "2013" = "2013",
+                                            "2014" = "2014",
+                                            "2015" = "2015",
+                                            "2016" = "2016",
+                                            "2017" = "2017",
+                                            "2018" = "2018"), 
+                               options = list(`actions-box` = TRUE),
+                               multiple = TRUE),
+                   # option for user to explore code further
+                   # create checkbox for linear model
+                   checkboxInput("line2", label = "Add linear model"),
+                   hr(),
+                   h4('See Code:'),
+                   HTML(paste('<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/lower_eastP.csv" target="_blank">Lower East Side</a>', 
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/chelseaP.csv" target="_blank">Chelsea</a>', 
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/sohoP.csv" target="_blank">Soho</a>', 
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/fidiP.csv" target="_blank">Financial District</a>',
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/east_villageP.csv" target="_blank">East Village</a>',
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/west_villageP.csv" target="_blank">West Village</a>',
+                              '<a href="https://github.com/hollyc2019/TacklingManhattanApp/blob/master/gramercyP.csv" target="_blank">Gramercy Park</a>',
+                              sep="<br/>"))
+                 ),
+                 
+                 mainPanel(
+                   # Output: Tabset w/ plots for the popular neighborhoods within Manhattan
+                   tabsetPanel(type = "tabs",
+                               tabPanel("Lower East Side", plotOutput("plot_lowereastP")),
+                               tabPanel("Chelsea", plotOutput("plot_chelseaP")),
+                               tabPanel("Soho", plotOutput("plot_sohoP")), 
+                               tabPanel("Financial District", plotOutput("plot_fidiP")), 
+                               tabPanel("East Village", plotOutput("plot_eastvillageP")),
+                               tabPanel("West Village", plotOutput("plot_westvillageP")),
+                               tabPanel("Gramercy Park", plotOutput("plot_gramercyP")))))),
+             tabPanel("Takeaways",
+                      fluidPage(
+                        fluidRow(
+                          h3("We did it!"),
+                          br(),
+                          p("Thank you for joining me on this journey to find an apartment, or at least the start of it!"),
+                          br(),
+                          h3("What have I learned?"),
+                          p("Through making this app I have really come to appreciate the accessibility that Shiny offers 
+                            and how easy it can be to create a presentable website once you know the basics. Completing 
+                            this project was not an easy task by any means and it involved countless hours of trial and 
+                            error, but I'm proud of the way it came out and I hope to expand on it later on/create new 
+                            interactive apps in the future. On of the biggest struggles I had with this project was the
+                            data itself. NYC is a big city with a HUGE amount of public data up for grabs. I had to narrow 
+                            my focus and not take on too much so that my project could be succinct. At first I downloaded 
+                            5 datasets, but then narrowed it to the two in order to focus on the critical aspects of 
+                            Manhattan supply and demand: availability and price. Given the number of neighborhoods I wanted 
+                            to explore, focusing on these two datasets was crucial to me completing a well-designed project
+                            with helpful insights. Another challenge I faced was attempted to recreate zillow.com with a map 
+                            of NYC and a pin of each and every available apartment within a 5 mile radius of my office. 
+                            This was a lofty goal for a project and I soon realized that after facing barriers with Google 
+                            API and a messy dataset that I had to forgo my interactive map idea. Afterall, Zillow has a 
+                            whole team of developers working on their website at once, as a new coder I was no match. But, 
+                            I'm very happy with what I was able to create in the end and I think it is a great first-look 
+                            into my apartment search. One of the insights a user could deduce from my analysis is in the availability tab.
+                            I realized that over the years, the amount of rentable units typically surge in the summer months. When availability is high, that helps
+                            drive down price because the supply has increased. This is great news for me because after I 
+                            graduate in May I'll be looking to sign a lease shortly thereafter."), 
+                          br(),
+                          h3("What next?"),
+                          br(),
+                          p("I would love to hear your thoughts!"),
+                          HTML(paste('<a href="https://goo.gl/forms/nmdvgowMeiQUk8C73" target="_blank">Evaluation</a>', sep="<br/>"))
+                          )
+                        ))
+             )
+
+
 
 # Defining server logic 
 server <- function(input, output) {
@@ -401,27 +401,27 @@ server <- function(input, output) {
     # filter data for selected years
     plot_lowereastMI <- reactive({
       plot_lowereastMI <- lower_eastMI[lower_eastMI$year %in% input$year, ]
+    })
+    
+    # use if statement to create different plots for with and without linear model selection
+    if(input$line == TRUE) {
+      ggplot(data = plot_lowereastMI(), aes_string(x = "month", y = "units", color = "year")) +
+        geom_point() +
+        geom_smooth(method=loess) +
+        labs(x = "Month",
+             y = "Units",
+             title = "Availability of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for deciding when to buy")
+    }
+    else{
+      ggplot(data = plot_lowereastMI(), aes_string(x = "month", y = "units", color = "year")) +
+        geom_point() +
+        labs(x = "Month",
+             y = "Units",
+             title = "Availability of Rental Units Over the Last 8 Years",
+             subtitle = "Helpful analysis for deciding when to buy")
+    }
   })
-  
-  # use if statement to create different plots for with and without linear model selection
-  if(input$line == TRUE) {
-    ggplot(data = plot_lowereastMI(), aes_string(x = "month", y = "units", color = "year")) +
-      geom_point() +
-      geom_smooth(method=loess) +
-      labs(x = "Month",
-           y = "Units",
-           title = "Availability of Rental Units Over the Last 8 Years",
-           subtitle = "Helpful analysis for deciding when to buy")
-  }
-  else{
-    ggplot(data = plot_lowereastMI(), aes_string(x = "month", y = "units", color = "year")) +
-      geom_point() +
-      labs(x = "Month",
-           y = "Units",
-           title = "Availability of Rental Units Over the Last 8 Years",
-           subtitle = "Helpful analysis for deciding when to buy")
-  }
-})
   
   output$plot_chelseaMI <- renderPlot({
     # filter data for selected years
@@ -579,7 +579,7 @@ server <- function(input, output) {
     }
   })
   
-# Repeating the same process but for the price output plots
+  # Repeating the same process but for the price output plots
   output$plot_lowereastP <- renderPlot({
     # filter data for selected years
     plot_lowereastP <- reactive({
@@ -764,6 +764,6 @@ server <- function(input, output) {
   })
 }
 
-    
+
 shinyApp(ui = ui, server = server)
 
